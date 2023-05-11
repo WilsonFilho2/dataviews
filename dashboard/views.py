@@ -1,20 +1,20 @@
 from django.shortcuts import render
 from django.http import request
+from . import models
 
 # Create your views here.
 
-dt = [
-        15339,
-        21345,
-        18483,
-        24003,
-        23489,
-        34092,
-        22034
-    ]
 
 def index(request):
-    return render(request, 'dashboard/index.html', 
-    {
-        'dtpy': dt
-        })
+    dt = list()
+    values = models.Dados.objects.all()
+    for value in values:
+        dt.append(value.value)
+
+    ls = list()
+    labels = models.Labels.objects.all()
+    for label in labels:
+        ls.append(label.value)
+
+    return render(request, 'dashboard/index.html',  {'dtpy': dt, 'lspy': ls}) 
+
